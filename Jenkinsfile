@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define any necessary environment variables here
-        APP_NAME = 'my-app-v1'
+        APP_NAME = 'my-app-v2'
         DOCKER_IMAGE = 'my-docker-image'
     }
 
