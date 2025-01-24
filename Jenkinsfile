@@ -18,9 +18,8 @@ pipeline {
                         sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
                         sh "docker push ${imageTag}"
                 	}
+			env.IMAGE_TAG = imageTag 
 		}
-                    
-                env.IMAGE_TAG = imageTag
             }
         }
 
