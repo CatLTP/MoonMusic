@@ -15,14 +15,16 @@ pipeline {
 
             steps {
 		script {
-			def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
-        	        def image = docker.build("${DOCKER_IMAGE}:${env.BUILD_NUMBER}")
+			container('docker') {
+				def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+        	        	def image = docker.build("${DOCKER_IMAGE}:${env.BUILD_NUMBER}")
 
-                	withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                        sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                        sh "docker push ${imageTag}"
-                	}
-			env.IMAGE_TAG = imageTag 
+                		withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+                        	sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                        	sh "docker push ${imageTag}"
+                		}
+				env.IMAGE_TAG = imageTag
+			} 
 		}
             }
         }
