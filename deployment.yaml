@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moon-music
+  namespace: dev
+  labels:
+    app: moon-music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moon-music
+  template:
+    metadata:
+      labels:
+        app: moon-music
+    spec:
+      containers:
+        - name: moon-music
+          image: phuongcat02/moon-music:0.1
+          ports:
+            - containerPort: 3030
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moon-music
+  namespace: dev
+  labels:
+    app: moon-music
+spec:
+  type: NodePort # Change to LoadBalancer or NodePort if you want external access
+  selector:
+    app: moon-music
+  ports:
+    - port: 3030
+      targetPort: 3030
+      nodePort: 31000

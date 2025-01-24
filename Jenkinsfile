@@ -3,40 +3,37 @@ pipeline {
 
     environment {
         // Define any necessary environment variables here
-        APP_NAME = 'my-app-v2'
-        DOCKER_IMAGE = 'my-docker-image'
+        APP_NAME = 'moon-music'
+        DOCKER_IMAGE = 'phuongcat02/moon-music'
     }
 
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building the application...'
-                // Add build commands, such as Maven, Gradle, or npm scripts
-                sh 'echo Building ${APP_NAME}'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Testing the application...'
-                // Add test commands, such as running unit tests
-                sh 'echo Running tests for ${APP_NAME}'
-            }
-        }
-
+        
         stage('Docker Build') {
             steps {
-                echo 'Building Docker image...'
-                // Build a Docker image
-                sh "docker build -t ${DOCKER_IMAGE} ."
+            	def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
+                sh "docker build -t ${imageTag} ."
+                
+		withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+          		sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+          		sh "docker push ${imageTag}"
+        	}
+                    
+                env.IMAGE_TAG = imageTag
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
-                // Deploy the application (e.g., to Kubernetes or Docker Swarm)
-                sh "echo Deploying ${DOCKER_IMAGE} to the production environment"
+            	sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
+		
+		sh """
+                	kubectl set image deployment/moon-music moon-music=${env.IMAGE_TAG} -n dev
+                """
+
+		sh """
+              		kubectl rollout status deployment/moon-music -n dev
+            	"""
             }
         }
     }
