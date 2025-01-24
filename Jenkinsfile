@@ -8,22 +8,11 @@ pipeline {
     }
 
     stages {
-	stage('Initialize') {
-	    steps {
-		script {
-			def dockerHome = tool 'docker'
-                	env.PATH = "${dockerHome}/bin:${env.PATH}"
-			sh 'usermod -aG docker jenkins'	
-		}
-	    }
-	}
-
-        
         stage('Docker Build') {
             steps {
 		script {
 			def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
-        	        sh "docker build -t ${imageTag} ."
+        	        def image = docker.build("${DOCKER_IMAGE}:${env.BUILD_NUMBER}")
 
                 	withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
                         sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
