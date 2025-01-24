@@ -9,6 +9,10 @@ pipeline {
 
     stages {
         stage('Docker Build') {
+	    tools {
+                dockerTool 'docker'
+            }
+
             steps {
 		script {
 			def imageTag = "${DOCKER_IMAGE}:${env.BUILD_NUMBER}"
