@@ -8,12 +8,12 @@ pipeline {
     }
 
     stages {
-	stage('Initialize'){
+	stage('Initialize') {
 	    steps {
 		script {
 			def dockerHome = tool 'docker'
                 	env.PATH = "${dockerHome}/bin:${env.PATH}"
-			usermod -aG docker jenkins	
+			sh 'usermod -aG docker jenkins'	
 		}
 	    }
 	}
