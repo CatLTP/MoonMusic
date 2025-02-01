@@ -29,11 +29,7 @@ pipeline {
     }
 
     stages {
-        stage('Docker Build') {
-            tools {
-                dockerTool 'docker'
-            }
-
+        /*stage('Docker Build') {
             steps {
                 script {
                     container('docker') {
@@ -48,19 +44,15 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
-        stage('Deploy') {
+        stage('Deploy in Kubernetes') {
             steps {
                 sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
                 
-                sh """
-                kubectl set image deployment/moon-music moon-music=${env.IMAGE_TAG} -n dev
-                """
-
-                sh """
-                kubectl rollout status deployment/moon-music -n dev
-                """
+                withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'jenkins', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.49.2:8443') {
+    			sh "kubectl get pod"
+		}
             }
         }
     }
