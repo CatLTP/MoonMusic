@@ -23,10 +23,16 @@ pipeline {
                   tty: true
                   securityContext:
                     runAsUser: 0
+                  volumeMounts:
+                  - mountPath: /home/catle/.minikube/profiles/minikube/
+                    name: minikube-ca
                 volumes:
                 - name: docker-sock
                   hostPath:
-                    path: /var/run/docker.sock   
+                    path: /var/run/docker.sock
+                - name: minikube-ca
+                  hostPath:
+                    path: /home/catle/.minikube/profiles/minikube/   
             '''
         }
     }
