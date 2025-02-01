@@ -60,7 +60,7 @@ pipeline {
                 sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
                 	
                 script {
-                    conitainer('kubectl') {
+                    container('kubectl') {
 			withCredentials([file(credentialsId: 'minikube_config',variable: 'KUBECONFIG')]) {
                     		sh "echo $KUBECONFIG > /.kube/config"
                                 sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
