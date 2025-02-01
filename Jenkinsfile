@@ -18,11 +18,11 @@ pipeline {
                   image: bitnami/kubectl:latest
                   command:
                   - "/bin/sh"
-		    "-c"
-		    "sleep 99d"
+                  - "-c"
+                  - "sleep 99d"
                   tty: true
-		  securityContext:
-		    runAsUser: 0
+                  securityContext:
+                    runAsUser: 0
                 volumes:
                 - name: docker-sock
                   hostPath:
