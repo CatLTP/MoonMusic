@@ -57,7 +57,7 @@ pipeline {
                 
                 script {
                     container('kubectl') {
-                     sh "kubectl get pod"
+                    	sh "kubectl apply -f deployment.yaml"
                     }
                 }
             }
