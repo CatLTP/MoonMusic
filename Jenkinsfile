@@ -17,7 +17,12 @@ pipeline {
                 volumes:
                 - name: docker-sock
                   hostPath:
-                    path: /var/run/docker.sock    
+                    path: /var/run/docker.sock
+		- name: docker
+                  image: bitnami/kubectl:latest
+                  command:
+                  - cat
+                  tty: true   
             '''
         }
     }
