@@ -54,10 +54,12 @@ pipeline {
         stage('Deploy in Kubernetes') {
             steps {
                 sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
-                
+                	
                 script {
                     container('kubectl') {
-                    	sh "kubectl apply -f deployment.yaml"
+			withCredentials([file(credentialsId: 'minikube',variable: 'KUBECONFIG')]) {
+                    		sh "kubectl apply -f deployment.yaml"
+			}
                     }
                 }
             }
