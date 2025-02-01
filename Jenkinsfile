@@ -57,9 +57,7 @@ pipeline {
                 
                 script {
                     container('kubectl') {
-                        withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'jenkins', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.49.2:8443') {
-                            sh "kubectl get pod"
-                        }
+                     sh "kubectl get pod"
                     }
                 }
             }
