@@ -60,9 +60,11 @@ pipeline {
                 sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
                 	
                 script {
-                    container('kubectl') {
-			withCredentials([file(credentialsId: 'minikube',variable: 'KUBECONFIG')]) {
+                    conitainer('kubectl') {
+			withCredentials([file(credentialsId: 'minikube_config',variable: 'KUBECONFIG')]) {
                     		sh "echo $KUBECONFIG > /.kube/config"
+                                sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
+                                sh "kubectl config use-context minikube" 
 				sh "kubectl --insecure-skip-tls-verify=true apply -f deployment.yaml"
 			}
                     }
