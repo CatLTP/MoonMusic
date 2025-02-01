@@ -58,7 +58,8 @@ pipeline {
                 script {
                     container('kubectl') {
 			withCredentials([file(credentialsId: 'minikube',variable: 'KUBECONFIG')]) {
-                    		sh "kubectl apply -f deployment.yaml"
+                    		sh "echo $KUBECONFIG > /.kube/config"
+				sh "kubectl apply -f deployment.yaml"
 			}
                     }
                 }
