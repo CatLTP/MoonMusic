@@ -63,7 +63,7 @@ pipeline {
                     container('kubectl') {
 			withCredentials([file(credentialsId: 'minikube',variable: 'KUBECONFIG')]) {
                     		sh "echo $KUBECONFIG > /.kube/config"
-				sh "kubectl apply -f deployment.yaml"
+				sh "kubectl --insecure-skip-tls-verify=true apply -f deployment.yaml"
 			}
                     }
                 }
