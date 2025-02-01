@@ -14,15 +14,15 @@ pipeline {
                   volumeMounts:
                   - mountPath: /var/run/docker.sock
                     name: docker-sock
-                volumes:
-                - name: docker-sock
-                  hostPath:
-                    path: /var/run/docker.sock
-		- name: docker
+		  name: kubectl
                   image: bitnami/kubectl:latest
                   command:
                   - cat
-                  tty: true   
+                  tty: true  
+                volumes:
+                - name: docker-sock
+                  hostPath:
+                    path: /var/run/docker.sock   
             '''
         }
     }
