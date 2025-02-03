@@ -42,7 +42,7 @@ pipeline {
     }
 
     stages {
-        /*stage('Docker Build') {
+        stage('Docker Build') {
             steps {
                 script {
                     container('docker') {
@@ -57,14 +57,16 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
-        /*stage('Deploy in Kubernetes') {
+        stage('Deploy in Kubernetes') {
             steps {
                 sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
                 	
                 script {
                     container('kubectl') {
+                        sh "sed -i 's|image: phuongcat02/moon-music:.*|image: ${DOCKER_IMAGE}:${env.BUILD_NUMBER}|' deployment.yaml"
+
 			withCredentials([file(credentialsId: 'minikube_config',variable: 'KUBECONFIG')]) {
                     		sh "echo $KUBECONFIG > /.kube/config"
                                 sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
@@ -74,7 +76,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
 	stage('Notificate Mattermost') {
             steps {
