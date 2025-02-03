@@ -1,6 +1,6 @@
-@Library('mattmost-library')
+@Library('jenkin-shared-libraries')
 
-import src.notification.mattermostBot
+import notification.mattermostBot
 
 pipeline {
     agent {
