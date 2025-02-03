@@ -78,7 +78,7 @@ pipeline {
 
 	stage('Notificate Mattermost') {
             steps {
-                sh "Sending hello to Mattermost"
+                sh "echo Sending hello to Mattermost"
                         
                 script {
 			mattermostBot('xk9zg5wnatn9xqncy6xdpq1o9c','sjp1jxam6fg83cz75oh56gexsh','Hello from Jenkin')
