@@ -1,3 +1,7 @@
+@Library('jenkin-shared-libraries')
+
+import notification.mattermostBot
+
 pipeline {
     agent {
         kubernetes {
@@ -55,7 +59,7 @@ pipeline {
             }
         }*/
 
-        stage('Deploy in Kubernetes') {
+        /*stage('Deploy in Kubernetes') {
             steps {
                 sh "echo Deploying ${DOCKER_IMAGE} to the dev environment"
                 	
@@ -69,6 +73,16 @@ pipeline {
 			}
                     }
                 }
+            }
+        }*/
+
+	stage('Notificate Mattermost') {
+            steps {
+                sh "Sending hello to Mattermost"
+                        
+                script {
+			mattermostBot('xk9zg5wnatn9xqncy6xdpq1o9c','sjp1jxam6fg83cz75oh56gexsh','Hello from Jenkin')
+		}
             }
         }
     }
