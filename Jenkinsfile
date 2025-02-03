@@ -81,7 +81,7 @@ pipeline {
                 sh "echo Sending hello to Mattermost"
                         
                 script {
-			notification.MattermostBot.send('xk9zg5wnatn9xqncy6xdpq1o9c','sjp1jxam6fg83cz75oh56gexsh','Hello from Jenkin')
+			mattermostBot('xk9zg5wnatn9xqncy6xdpq1o9c','sjp1jxam6fg83cz75oh56gexsh','Hello from Jenkin')
 		}
             }
         }
